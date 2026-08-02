@@ -1,0 +1,13 @@
+{
+  "profile.user.since": "Traveler since {year}",
+  "profile.host.since": "Hosting since {year}",
+  "profile.badge.superhost": "Superhost",
+  "profile.badge.verified": "Verified",
+  "profile.badge.multiListing": "Multiple homes",
+  "profile.listings": "{count, plural, =0 {No listings} one {# listing} other {# listings}}",
+  "profile.noListings": "This host hasn't published any listings yet.",
+  "profile.prev": "Previous",
+  "profile.next": "Next",
+  "profile.pageOf": "Page {page} of {pages}",
+  "profile.host.viewMap": "View listings on the map"
+}

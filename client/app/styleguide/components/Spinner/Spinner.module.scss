@@ -1,0 +1,13 @@
+@use '../../styles/tokens' as *;
+
+.spinner {
+  display: inline-block;
+  border: 2px solid $color-line;
+  border-top-color: $color-primary;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

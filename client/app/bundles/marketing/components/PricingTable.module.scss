@@ -1,0 +1,27 @@
+@use '../../../styleguide/styles/tokens' as *;
+@use '../../../styleguide/styles/misc/responsive' as *;
+
+.plans {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-4;
+
+  @include md { grid-template-columns: repeat(3, 1fr); }
+}
+
+.plan {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  padding: $space-5;
+  background: $color-surface;
+  border: 1px solid $color-line;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+}
+
+.featured { border-color: $color-primary; }
+.price { font-family: $font-serif; font-size: 2rem; color: $color-primary; }
+.name { font-weight: 700; }
+.blurb { color: $color-muted; flex: 1; }
+.cta { margin-top: auto; }

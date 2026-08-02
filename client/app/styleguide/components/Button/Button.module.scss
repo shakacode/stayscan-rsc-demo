@@ -1,0 +1,82 @@
+@use '../../styles/tokens' as *;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  border: 1px solid transparent;
+  border-radius: $radius-pill;
+  font-family: $font-sans;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.08s ease, background 0.15s ease, box-shadow 0.15s ease;
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.primary {
+  background: $color-primary;
+  color: $color-primary-ink;
+}
+
+.secondary {
+  background: $color-surface;
+  color: $color-ink;
+  border-color: $color-line;
+}
+
+.ghost {
+  background: transparent;
+  color: $color-ink;
+}
+
+.danger {
+  background: $color-danger;
+  color: #fff;
+}
+
+.sm {
+  padding: $space-1 $space-3;
+  font-size: $text-sm;
+}
+
+.md {
+  padding: $space-2 $space-5;
+  font-size: $text-base;
+}
+
+.lg {
+  padding: $space-3 $space-6;
+  font-size: $text-lg;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.loading .label {
+  opacity: 0.7;
+}
+
+.spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

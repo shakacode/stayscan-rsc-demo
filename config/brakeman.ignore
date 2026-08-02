@@ -1,0 +1,11 @@
+{
+  "ignored_warnings": [
+    {
+      "fingerprint": "98b26f60d776fd41ee6f088c833725145be9aac2d7c5b33780241c273622db42",
+      "check_name": "EOLRails",
+      "warning_type": "Unmaintained Dependency",
+      "note": "Framework and library versions are pinned on purpose in this testbed: the point is to reproduce a mature app's dependency situation, and upgrading is itself an experiment rather than routine maintenance. This is a calendar advisory about Rails' support window, not a finding in this codebase, so it must not turn CI red on a date with no code change. Real security warnings are still enforced."
+    }
+  ],
+  "brakeman_version": "8.0.5"
+}

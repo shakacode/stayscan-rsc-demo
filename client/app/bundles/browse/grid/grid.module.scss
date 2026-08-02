@@ -1,0 +1,94 @@
+@use '../../../styleguide/styles/tokens' as *;
+@use '../../../styleguide/styles/misc/responsive' as *;
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  margin-bottom: $space-3;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-4;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @include sm { grid-template-columns: 1fr 1fr; }
+  @include xl { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+.empty {
+  text-align: center;
+  padding: $space-6 $space-4;
+  color: $color-muted;
+}
+
+.emptyTitle {
+  font-family: $font-serif;
+  font-size: 1.3rem;
+  color: $color-ink;
+  margin-bottom: $space-2;
+}
+
+.toolbarActions {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.sort {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  font-size: $text-sm;
+  color: $color-muted;
+}
+
+.select {
+  border: 1px solid $color-line;
+  border-radius: $radius-md;
+  padding: $space-1 $space-2;
+  font: inherit;
+  background: $color-surface;
+  color: $color-ink;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  margin-top: $space-5;
+  flex-wrap: wrap;
+}
+
+.pageButton {
+  min-width: 34px;
+  border: 1px solid $color-line;
+  background: $color-surface;
+  border-radius: $radius-md;
+  padding: $space-1 $space-2;
+  cursor: pointer;
+  color: $color-ink;
+  font: inherit;
+}
+
+.pageButtonActive {
+  background: $color-primary;
+  color: $color-primary-ink;
+  border-color: $color-primary;
+}
+
+.pageButton:disabled { opacity: 0.4; cursor: default; }
+
+.capNote {
+  width: 100%;
+  text-align: center;
+  color: $color-muted;
+  font-size: $text-sm;
+  margin-top: $space-2;
+}

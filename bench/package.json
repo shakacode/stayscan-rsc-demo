@@ -1,0 +1,10 @@
+{
+  "name": "stayscan-bench",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Web-vitals A/B harness. Self-contained so the root package.json stays renderer-only; drives the system Chrome via puppeteer-core.",
+  "dependencies": {
+    "puppeteer-core": "^23.11.1"
+  }
+}

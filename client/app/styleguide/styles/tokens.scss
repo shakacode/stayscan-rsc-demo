@@ -1,0 +1,48 @@
+// Design tokens for the StayScan styleguide. Component `.module.scss`
+// files `@use` this to share color/space/type scales. Mobile-first; `lg`/`xl`
+// (see misc/responsive.scss) are the desktop exceptions.
+
+// Brand palette
+$color-ink: #112031;
+$color-muted: #4d5b6a;
+$color-line: rgba(17, 32, 49, 0.12);
+$color-surface: #fffcf6;
+$color-page: #f5efe5;
+$color-primary: #0d3b66;
+$color-primary-ink: #fff9f1;
+$color-accent: #ef8354;
+$color-success: #2f9e6f;
+$color-danger: #d64545;
+$color-star: #f4b740;
+
+// Spacing scale (4px base)
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-5: 24px;
+$space-6: 32px;
+$space-7: 48px;
+
+// Radii
+$radius-sm: 8px;
+$radius-md: 14px;
+$radius-lg: 22px;
+$radius-pill: 999px;
+
+// Typography
+$font-sans: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+$font-serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+$text-sm: 0.85rem;
+$text-base: 1rem;
+$text-lg: 1.2rem;
+
+// Elevation
+$shadow-sm: 0 6px 18px rgba(17, 32, 49, 0.08);
+$shadow-lg: 0 20px 54px rgba(17, 32, 49, 0.14);
+
+// Breakpoints
+$bp-sm: 576px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1280px;

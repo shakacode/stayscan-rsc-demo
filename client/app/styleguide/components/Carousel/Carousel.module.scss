@@ -1,0 +1,61 @@
+@use '../../styles/tokens' as *;
+
+.carousel {
+  position: relative;
+}
+
+.viewport {
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transition: transform 0.35s ease;
+}
+
+.slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+.arrow {
+  position: absolute;
+  top: 40%;
+  width: 40px;
+  height: 40px;
+  border: 1px solid $color-line;
+  border-radius: $radius-pill;
+  background: $color-surface;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: $color-ink;
+  cursor: pointer;
+  box-shadow: $shadow-sm;
+}
+
+.prev { left: -12px; }
+.next { right: -12px; }
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: $space-2;
+  margin-top: $space-4;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: none;
+  border-radius: $radius-pill;
+  background: $color-line;
+  cursor: pointer;
+}
+
+.active {
+  background: $color-primary;
+}

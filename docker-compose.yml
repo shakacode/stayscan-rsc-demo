@@ -1,0 +1,32 @@
+# Backing services for local development.
+# App processes (rails, renderer, sidekiq, webpack) run on the host via bin/dev;
+# this file provides only the stateful/third-party services.
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  memcached:
+    image: memcached:1.6
+    ports:
+      - "11211:11211"
+
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - "1025:1025"   # SMTP
+      - "1080:1080"   # web UI
+
+volumes:
+  db_data:

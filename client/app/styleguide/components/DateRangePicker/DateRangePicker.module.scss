@@ -1,0 +1,21 @@
+@use '../../styles/tokens' as *;
+
+.picker {
+  display: inline-block;
+  color: $color-ink;
+
+  // Theme react-day-picker 7's global classes (third-party, stable names).
+  :global(.DayPicker-Day--selected:not(.DayPicker-Day--disabled)) {
+    background-color: $color-primary;
+    color: $color-primary-ink;
+  }
+
+  :global(.DayPicker-Day--start),
+  :global(.DayPicker-Day--end) {
+    border-radius: $radius-pill;
+  }
+
+  :global(.DayPicker-Day) {
+    border-radius: 0;
+  }
+}

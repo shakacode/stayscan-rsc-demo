@@ -1,0 +1,64 @@
+@use '../../../styleguide/styles/tokens' as *;
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: $space-6 $space-4;
+}
+
+.title {
+  font-family: $font-serif;
+  font-size: 1.8rem;
+  color: $color-ink;
+  margin: 0 0 $space-4;
+}
+
+.tabs {
+  display: flex;
+  gap: $space-1;
+  border-bottom: 1px solid $color-line;
+  margin-bottom: $space-4;
+  flex-wrap: wrap;
+}
+
+.tab {
+  border: none;
+  background: none;
+  padding: $space-2 $space-3;
+  cursor: pointer;
+  color: $color-muted;
+  font: inherit;
+  border-bottom: 2px solid transparent;
+}
+
+.tabActive { color: $color-ink; border-bottom-color: $color-primary; }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.field { display: flex; flex-direction: column; gap: $space-1; }
+.label { font-weight: 600; color: $color-ink; }
+
+.textarea {
+  width: 100%;
+  min-height: 96px;
+  padding: $space-3;
+  border: 1px solid $color-line;
+  border-radius: $radius-md;
+  font: inherit;
+  resize: vertical;
+}
+
+.readonly { color: $color-muted; }
+
+.saveBar {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  margin-top: $space-2;
+}
+
+.saved { color: $color-success; font-size: $text-sm; }

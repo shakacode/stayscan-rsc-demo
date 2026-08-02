@@ -1,0 +1,39 @@
+@use '../../../../styleguide/styles/tokens' as *;
+
+.strip {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  padding: $space-2 $space-4;
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: $space-2 $space-4;
+  border-radius: $radius-sm;
+  background: $color-line;
+  color: $color-ink;
+}
+
+.success {
+  background: rgba(47, 158, 111, 0.16);
+  color: $color-success;
+}
+
+.error,
+.alert.danger {
+  background: rgba(214, 69, 69, 0.14);
+  color: $color-danger;
+}
+
+.dismiss {
+  display: inline-flex;
+  padding: $space-1;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}

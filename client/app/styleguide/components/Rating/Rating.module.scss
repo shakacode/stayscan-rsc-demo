@@ -1,0 +1,30 @@
+@use '../../styles/tokens' as *;
+
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: $color-star;
+}
+
+.star {
+  width: 1em;
+  height: 1em;
+}
+
+.sm { font-size: 0.9rem; }
+.md { font-size: 1.15rem; }
+.lg { font-size: 1.5rem; }
+
+.interactive {
+  gap: $space-1;
+}
+
+.starButton {
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  line-height: 0;
+}

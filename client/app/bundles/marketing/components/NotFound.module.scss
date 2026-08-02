@@ -1,0 +1,4 @@
+@use '../../../styleguide/styles/tokens' as *;
+
+.notFound { text-align: center; }
+.body { color: $color-muted; margin: $space-4 0 $space-5; }

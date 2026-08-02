@@ -1,0 +1,414 @@
+@use '../../../styleguide/styles/tokens' as *;
+@use '../../../styleguide/styles/misc/responsive' as *;
+
+.section {
+  padding: $space-5 0;
+  border-top: 1px solid $color-line;
+}
+
+.sectionHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  margin: 0 0 $space-4;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-family: $font-serif;
+  font-size: 1.4rem;
+  color: $color-ink;
+}
+
+/* ---- gallery ---- */
+.gallery {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-2;
+  border-radius: $radius-lg;
+  overflow: hidden;
+
+  @include lg {
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    max-height: 460px;
+  }
+}
+
+.heroTile {
+  @include lg {
+    grid-row: span 2;
+  }
+}
+
+.tile {
+  position: relative;
+  margin: 0;
+  background: $color-page;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.tileImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.galleryButton {
+  position: absolute;
+  bottom: $space-3;
+  right: $space-3;
+  z-index: 2;
+}
+
+/* ---- lightbox ---- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.92);
+}
+
+.lightboxStage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-4;
+  min-height: 0;
+}
+
+.lightboxImg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.lightboxBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-3 $space-4;
+  color: #fff;
+}
+
+.lightboxNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border: none;
+  border-radius: $radius-pill;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+}
+
+.lightboxPrev { left: $space-3; }
+.lightboxNext { right: $space-3; }
+
+.thumbs {
+  display: flex;
+  gap: $space-2;
+  overflow-x: auto;
+  padding: $space-3 $space-4;
+}
+
+.thumb {
+  flex: 0 0 auto;
+  width: 72px;
+  height: 54px;
+  border: 2px solid transparent;
+  border-radius: $radius-sm;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  background: none;
+}
+
+.thumbActive { border-color: #fff; }
+
+/* ---- overview ---- */
+.capacity {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+  color: $color-muted;
+  list-style: none;
+  margin: $space-2 0 0;
+  padding: 0;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  margin-top: $space-3;
+}
+
+/* ---- description ---- */
+.prose {
+  color: $color-ink;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+.readMoreButton {
+  margin-top: $space-2;
+}
+
+/* ---- amenities ---- */
+.amenitiesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-3;
+
+  @include lg { grid-template-columns: 1fr 1fr; }
+}
+
+.amenity {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  color: $color-ink;
+}
+
+.amenityIcon {
+  width: 22px;
+  text-align: center;
+}
+
+.amenityModalList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-3;
+
+  @include lg { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---- host ---- */
+.host {
+  display: flex;
+  gap: $space-4;
+  align-items: flex-start;
+}
+
+.hostBody { flex: 1; }
+.hostName { font-weight: 700; color: $color-ink; }
+.hostAbout { color: $color-muted; line-height: 1.6; margin: $space-2 0; }
+
+/* ---- reviews ---- */
+.reviewsLayout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-5;
+
+  @include lg { grid-template-columns: 260px 1fr; align-items: start; }
+}
+
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.breakdownRow {
+  display: grid;
+  grid-template-columns: 24px 1fr 32px;
+  align-items: center;
+  gap: $space-2;
+  font-size: $text-sm;
+  color: $color-muted;
+}
+
+.bar {
+  height: 6px;
+  border-radius: $radius-pill;
+  background: $color-line;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  background: $color-star;
+}
+
+.reviewList {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.review {
+  padding-bottom: $space-4;
+  border-bottom: 1px solid $color-line;
+}
+
+.reviewHead {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  margin-bottom: $space-2;
+}
+
+.reviewAuthor { font-weight: 600; color: $color-ink; }
+.reviewMeta { color: $color-muted; font-size: $text-sm; }
+.reviewBody { color: $color-ink; line-height: 1.6; }
+
+.aiTabs {
+  display: flex;
+  gap: $space-2;
+  margin-bottom: $space-3;
+}
+
+.aiTab {
+  border: 1px solid $color-line;
+  background: $color-surface;
+  border-radius: $radius-pill;
+  padding: $space-1 $space-3;
+  cursor: pointer;
+  color: $color-muted;
+}
+
+.aiTabActive { border-color: $color-primary; color: $color-primary; }
+
+.aiPanel {
+  padding: $space-3;
+  border-radius: $radius-md;
+  background: rgba($color-primary, 0.06);
+  color: $color-ink;
+  line-height: 1.6;
+}
+
+.aiPanelIntro {
+  margin: 0 0 $space-2;
+  color: $color-muted;
+}
+
+.aiList {
+  margin: $space-2 0 0;
+  padding-left: $space-4;
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  color: $color-ink;
+  line-height: 1.5;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-3;
+  margin-top: $space-4;
+}
+
+/* ---- location ---- */
+.map {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  background: $color-page;
+}
+
+.mapNote {
+  color: $color-muted;
+  font-size: $text-sm;
+  margin-top: $space-2;
+}
+
+/* ---- carousels ---- */
+.tileLite {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.tileLiteImg {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: $radius-md;
+}
+
+.tileLiteTitle { font-weight: 600; color: $color-ink; margin-top: $space-2; }
+.tileLiteMeta { color: $color-muted; font-size: $text-sm; }
+
+/* ---- action bar ---- */
+.actionBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  margin-top: $space-3;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-1;
+  background: none;
+  border: 1px solid $color-line;
+  border-radius: $radius-pill;
+  padding: $space-1 $space-3;
+  cursor: pointer;
+  color: $color-ink;
+}
+
+.iconButtonActive { color: $color-danger; border-color: $color-danger; }
+
+/* ---- faq + good to know ---- */
+.faqItem {
+  border-bottom: 1px solid $color-line;
+}
+
+.faqQuestion {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: $space-3 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  color: $color-ink;
+  text-align: left;
+}
+
+.faqChevron { transition: transform 0.15s ease; }
+.faqChevronOpen { transform: rotate(180deg); }
+
+.faqAnswer {
+  margin: 0 0 $space-3;
+  color: $color-muted;
+  line-height: 1.6;
+}
+
+.tipList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.tip {
+  display: flex;
+  gap: $space-2;
+  color: $color-ink;
+  line-height: 1.5;
+}
+
+.tipMark { color: $color-primary; }

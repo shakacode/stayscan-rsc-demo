@@ -1,0 +1,151 @@
+@use '../../../styleguide/styles/tokens' as *;
+@use '../../../styleguide/styles/misc/responsive' as *;
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $space-5 $space-4;
+}
+
+.header {
+  margin-bottom: $space-4;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  font-size: $text-sm;
+  color: $color-muted;
+  margin-bottom: $space-2;
+
+  a { color: $color-muted; }
+}
+
+.title {
+  margin: 0 0 $space-1;
+  font-family: $font-serif;
+  font-size: 1.8rem;
+  color: $color-ink;
+}
+
+.count {
+  color: $color-muted;
+  margin: 0;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-4;
+
+  @include lg {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    align-items: start;
+  }
+}
+
+.results { min-width: 0; }
+
+.mapPane {
+  min-height: 360px;
+
+  @include lg {
+    position: sticky;
+    top: $space-4;
+    height: calc(100vh - #{$space-6});
+  }
+}
+
+.hiddenMobile {
+  display: none;
+
+  @include lg { display: block; }
+}
+
+.dates {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  margin-top: $space-3;
+  color: $color-muted;
+}
+
+.dateInput {
+  border: 1px solid $color-line;
+  border-radius: $radius-md;
+  padding: $space-1 $space-2;
+  font: inherit;
+  background: $color-surface;
+  color: $color-ink;
+}
+
+.mobileToggle {
+  display: inline-flex;
+  gap: $space-1;
+  margin-top: $space-3;
+  padding: $space-1;
+  border: 1px solid $color-line;
+  border-radius: $radius-pill;
+
+  @include lg { display: none; }
+}
+
+.toggleButton {
+  border: none;
+  background: none;
+  border-radius: $radius-pill;
+  padding: $space-1 $space-4;
+  cursor: pointer;
+  color: $color-muted;
+  font: inherit;
+}
+
+.toggleButtonActive {
+  background: $color-primary;
+  color: $color-primary-ink;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-3;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @include md { grid-template-columns: 1fr 1fr; }
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  padding: $space-3;
+  border: 1px solid $color-line;
+  border-radius: $radius-md;
+  background: $color-surface;
+  transition: box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+.tileActive {
+  border-color: $color-primary;
+  box-shadow: 0 0 0 1px $color-primary;
+}
+
+.tileTitle {
+  font-weight: 600;
+  color: $color-ink;
+  text-decoration: none;
+}
+
+.tileMeta {
+  color: $color-muted;
+  font-size: $text-sm;
+}
+
+.empty {
+  color: $color-muted;
+  padding: $space-5 0;
+  text-align: center;
+}

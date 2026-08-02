@@ -1,0 +1,29 @@
+@use '../../styles/tokens' as *;
+
+.wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.trigger {
+  display: inline-flex;
+}
+
+.content {
+  position: absolute;
+  top: calc(100% + #{$space-2});
+  z-index: 500;
+  min-width: 220px;
+  padding: $space-4;
+  background: $color-surface;
+  border: 1px solid $color-line;
+  border-radius: $radius-md;
+  box-shadow: $shadow-lg;
+}
+
+.bottom-start { left: 0; }
+.bottom-end { right: 0; }
+.bottom {
+  left: 50%;
+  transform: translateX(-50%);
+}

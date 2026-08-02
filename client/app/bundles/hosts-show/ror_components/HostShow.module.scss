@@ -1,0 +1,13 @@
+@use '../../../styleguide/styles/tokens' as *;
+
+.mapLinkRow {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: $space-3 $space-4 0;
+  text-align: right;
+}
+
+.mapLink {
+  color: $color-primary;
+  font-size: $text-sm;
+}

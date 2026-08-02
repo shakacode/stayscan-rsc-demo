@@ -1,0 +1,32 @@
+@use '../../styles/tokens' as *;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-1;
+  padding: 2px $space-3;
+  font-size: $text-sm;
+  font-weight: 700;
+  border-radius: $radius-pill;
+  border: 1px solid transparent;
+}
+
+.neutral {
+  background: $color-line;
+  color: $color-ink;
+}
+
+.success {
+  background: rgba(47, 158, 111, 0.14);
+  color: $color-success;
+}
+
+.accent {
+  background: rgba(239, 131, 84, 0.16);
+  color: $color-accent;
+}
+
+.outline {
+  border-color: $color-line;
+  color: $color-muted;
+}

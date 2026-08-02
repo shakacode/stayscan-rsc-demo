@@ -1,0 +1,53 @@
+@use '../../styles/tokens' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-4;
+  background: rgba(17, 32, 49, 0.5);
+}
+
+.dialog {
+  position: relative;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: $space-6;
+  background: $color-surface;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-lg;
+}
+
+.sm { max-width: 380px; }
+.md { max-width: 560px; }
+.lg { max-width: 820px; }
+
+.title {
+  margin: 0 $space-6 $space-4 0;
+  font-family: $font-serif;
+  font-size: 1.5rem;
+  color: $color-ink;
+}
+
+.close {
+  position: absolute;
+  top: $space-4;
+  right: $space-4;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: $radius-pill;
+  background: transparent;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: $color-muted;
+  cursor: pointer;
+
+  &:hover { background: $color-line; }
+}
+
+.body { color: $color-ink; }

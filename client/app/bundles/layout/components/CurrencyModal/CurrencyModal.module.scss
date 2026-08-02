@@ -1,0 +1,41 @@
+@use '../../../../styleguide/styles/tokens' as *;
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: $space-3 $space-4;
+  border: 1px solid transparent;
+  border-radius: $radius-sm;
+  background: transparent;
+  font-size: $text-base;
+  color: $color-ink;
+  cursor: pointer;
+
+  &:hover {
+    background: $color-line;
+  }
+}
+
+.active {
+  border-color: $color-primary;
+  font-weight: 700;
+}
+
+.code {
+  font-weight: 700;
+}
+
+.symbol {
+  color: $color-muted;
+}

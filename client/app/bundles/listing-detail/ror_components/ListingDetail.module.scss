@@ -1,0 +1,60 @@
+@use '../../../styleguide/styles/tokens' as *;
+@use '../../../styleguide/styles/misc/responsive' as *;
+
+.detail {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: $space-6 $space-4;
+}
+
+.hero { margin-bottom: $space-5; }
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-5;
+
+  @include lg {
+    grid-template-columns: minmax(0, 1fr) 360px;
+    align-items: start;
+  }
+}
+
+.main { min-width: 0; }
+
+.aside {
+  @include lg {
+    position: sticky;
+    top: $space-4;
+  }
+}
+
+.title {
+  margin: 0 0 $space-2;
+  font-family: $font-serif;
+  font-size: 2rem;
+  color: $color-ink;
+
+  @include lg { font-size: 2.6rem; }
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: $space-1;
+  flex-wrap: wrap;
+  color: $color-muted;
+}
+
+.section {
+  padding: $space-5 0;
+  border-top: 1px solid $color-line;
+
+  h2 {
+    margin: 0 0 $space-3;
+    font-family: $font-serif;
+    color: $color-ink;
+  }
+}
+
+.prose { color: $color-muted; line-height: 1.7; }
