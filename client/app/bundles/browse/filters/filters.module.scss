@@ -1,0 +1,95 @@
+@use '../../../styleguide/styles/tokens' as *;
+@use '../../../styleguide/styles/misc/responsive' as *;
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  padding-bottom: $space-3;
+  border-bottom: 1px solid $color-line;
+}
+
+.groupTitle {
+  margin: 0;
+  font-size: 1rem;
+  color: $color-ink;
+}
+
+.groupRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+}
+
+.priceInputs {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.priceInput {
+  width: 100px;
+  border: 1px solid $color-line;
+  border-radius: $radius-md;
+  padding: $space-1 $space-2;
+  font: inherit;
+}
+
+.select {
+  border: 1px solid $color-line;
+  border-radius: $radius-md;
+  padding: $space-1 $space-2;
+  font: inherit;
+  background: $color-surface;
+}
+
+.amenityGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-1;
+
+  @include sm { grid-template-columns: 1fr 1fr; }
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  padding-top: $space-3;
+}
+
+.filtersButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: $space-1;
+  border: 1px solid $color-line;
+  background: $color-surface;
+  border-radius: $radius-pill;
+  padding: $space-1 $space-3;
+  cursor: pointer;
+  font: inherit;
+  color: $color-ink;
+}
+
+.filtersBadge {
+  background: $color-primary;
+  color: $color-primary-ink;
+  border-radius: $radius-pill;
+  min-width: 18px;
+  height: 18px;
+  display: inline-grid;
+  place-items: center;
+  font-size: 0.7rem;
+  padding: 0 4px;
+}

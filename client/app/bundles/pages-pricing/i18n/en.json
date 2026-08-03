@@ -1,0 +1,12 @@
+{
+  "marketing.pricing.title": "Simple pricing",
+  "marketing.pricing.free": "Free",
+  "marketing.pricing.freeName": "Traveler",
+  "marketing.pricing.freeBlurb": "Compare every price and book the cheapest. Always free.",
+  "marketing.pricing.perMonth": "{price}/mo",
+  "marketing.pricing.premiumName": "Premium",
+  "marketing.pricing.premiumBlurb": "Price alerts, saved searches, and fee-free direct booking.",
+  "marketing.pricing.businessName": "Business",
+  "marketing.pricing.businessBlurb": "For hosts and managers listing across every channel.",
+  "marketing.pricing.choose": "Choose plan"
+}

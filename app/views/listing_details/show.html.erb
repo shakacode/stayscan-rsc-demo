@@ -1,0 +1,2 @@
+<%= react_component("ListingDetail", props: @props, prerender: true,
+                    cache_key: [@listing, current_user&.id || "anon", @props[:locale], asset_version]) %>

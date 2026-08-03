@@ -1,0 +1,32 @@
+@use '../../../../styleguide/styles/tokens' as *;
+
+.trigger {
+  padding: 2px;
+  border: 1px solid $color-line;
+  border-radius: $radius-pill;
+  background: $color-surface;
+  cursor: pointer;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+}
+
+.link {
+  padding: $space-2 $space-3;
+  border: none;
+  border-radius: $radius-sm;
+  background: transparent;
+  font-family: $font-sans;
+  font-size: $text-base;
+  text-align: left;
+  text-decoration: none;
+  color: $color-ink;
+  cursor: pointer;
+
+  &:hover {
+    background: $color-line;
+  }
+}

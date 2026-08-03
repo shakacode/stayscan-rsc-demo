@@ -1,0 +1,19 @@
+@use '../../../styleguide/styles/tokens' as *;
+
+.page {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: $space-5 $space-4;
+}
+
+.title {
+  font-family: $font-serif;
+  font-size: 1.6rem;
+  color: $color-ink;
+  margin: 0 0 $space-4;
+}
+
+.mapWrap {
+  height: 70vh;
+  min-height: 420px;
+}

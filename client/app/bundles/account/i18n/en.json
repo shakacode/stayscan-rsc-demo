@@ -1,0 +1,21 @@
+{
+  "account.title": "Account settings",
+  "account.tab.profile": "Profile",
+  "account.tab.email": "Email preferences",
+  "account.tab.password": "Password",
+  "account.tab.danger": "Danger zone",
+  "account.save": "Save changes",
+  "account.saved": "Saved ✓",
+  "account.profile.name": "Display name",
+  "account.profile.about": "About you",
+  "account.email.address": "Signed in as {email}",
+  "account.email.deals": "Email me price-drop deals",
+  "account.email.digest": "Weekly digest of new stays",
+  "account.password.current": "Current password",
+  "account.password.new": "New password",
+  "account.danger.warning": "Deleting your account is permanent and can't be undone.",
+  "account.danger.delete": "Delete account",
+  "account.delete.confirm": "Type {word} to confirm you want to permanently delete your account.",
+  "account.delete.label": "Confirmation",
+  "account.delete.cancel": "Cancel"
+}

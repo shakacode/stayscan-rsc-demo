@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+ENV["RAILS_ENV"] ||= "development"
+ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../Gemfile", __dir__)
+require "bundler/setup"
+require "shakapacker"
+require "shakapacker/runner"
+
+# All frontend code + node_modules live in client/. Run webpack there,
+# but read the shakapacker.yml that stays at the Rails root.
+APP_ROOT = File.expand_path("../client", __dir__)
+ENV["SHAKAPACKER_CONFIG"] ||= File.expand_path("../config/shakapacker.yml", __dir__)
+
+Dir.chdir(APP_ROOT) do
+  Shakapacker::Runner.run(ARGV)
+end

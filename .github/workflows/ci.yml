@@ -1,0 +1,149 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# CI runs the same commands as local development so there is one source of truth.
+# System specs run as their own matrixed job because they need node, built
+# bundles and a browser; the live SSR-through-renderer smoke
+# (script/smoke-ssr.sh) is a documented local check.
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+          cache-dependency-path: client/yarn.lock
+      - run: yarn --cwd client install --frozen-lockfile
+      - name: Lint (rubocop + eslint)
+        run: |
+          bundle exec rubocop
+          yarn --cwd client lint
+
+  test_ruby:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s --health-timeout 5s --health-retries 5
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+      - name: Prepare test database
+        run: bin/rails db:prepare
+      - name: RSpec (unit)
+        run: bundle exec rspec --exclude-pattern "system/**/*"
+      - name: Brakeman (Rails security static analysis)
+        run: bundle exec brakeman --no-pager -i config/brakeman.ignore
+
+  test_system:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        viewport: [desktop, mobile]
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s --health-timeout 5s --health-retries 5
+    env:
+      RAILS_ENV: test
+      NODE_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432
+      CAPYBARA_WINDOW_SIZE: ${{ matrix.viewport }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+          cache-dependency-path: |
+            client/yarn.lock
+            yarn.lock
+      # client/ holds the frontend deps; the repo root holds only the Pro node
+      # renderer, which spec/support/node_renderer.rb boots for prerendering specs.
+      - run: yarn --cwd client install --frozen-lockfile
+      - run: yarn install --frozen-lockfile
+      - name: Prepare test database
+        run: bin/rails db:prepare
+      - name: Build test bundles (client + server)
+        run: |
+          bin/shakapacker-precompile-hook
+          SHAKAPACKER_SKIP_PRECOMPILE_HOOK=true bin/shakapacker
+      - name: RSpec (system, ${{ matrix.viewport }})
+        run: bundle exec rspec spec/system
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: capybara-failures-${{ matrix.viewport }}
+          path: tmp/capybara
+          if-no-files-found: ignore
+
+  test_js:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+          cache-dependency-path: client/yarn.lock
+      - run: yarn --cwd client install --frozen-lockfile
+      - name: Jest
+        run: yarn --cwd client test
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+          cache-dependency-path: |
+            client/yarn.lock
+            yarn.lock
+      - run: yarn --cwd client install --frozen-lockfile
+      - run: yarn install --frozen-lockfile
+      - name: Build webpack bundles (client + server)
+        run: |
+          bin/shakapacker-precompile-hook
+          SHAKAPACKER_SKIP_PRECOMPILE_HOOK=true bin/shakapacker
+

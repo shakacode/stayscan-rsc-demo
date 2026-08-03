@@ -1,0 +1,24 @@
+@use '../../../styleguide/styles/tokens' as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  max-width: 480px;
+}
+
+.field { display: flex; flex-direction: column; gap: $space-1; }
+.label { font-size: $text-sm; font-weight: 700; color: $color-muted; }
+
+.textarea {
+  min-height: 120px;
+  padding: $space-2 $space-3;
+  font-family: $font-sans;
+  font-size: $text-base;
+  color: $color-ink;
+  border: 1px solid $color-line;
+  border-radius: $radius-sm;
+  resize: vertical;
+}
+
+.notice { color: $color-success; font-weight: 700; }

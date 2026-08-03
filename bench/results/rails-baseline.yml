@@ -1,0 +1,19 @@
+---
+home:anon:
+  ms: 0.884
+  allocs: 545
+home:user:
+  ms: 0.679
+  allocs: 548
+listing_detail:anon:
+  ms: 6.94
+  allocs: 4120
+listing_detail:user:
+  ms: 4.655
+  allocs: 4125
+browse:anon:
+  ms: 35.546
+  allocs: 23826
+browse:user:
+  ms: 34.276
+  allocs: 23829

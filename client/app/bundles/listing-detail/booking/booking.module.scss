@@ -1,0 +1,220 @@
+@use '../../../styleguide/styles/tokens' as *;
+@use '../../../styleguide/styles/misc/responsive' as *;
+
+.widget {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  padding: $space-4;
+  border: 1px solid $color-line;
+  border-radius: $radius-lg;
+  background: $color-surface;
+}
+
+.widgetHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: $space-3;
+}
+
+.fromPrice {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: $color-ink;
+}
+
+.fromPriceUnit {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: $color-muted;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.guestGrid {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.guestRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: $space-2 0;
+}
+
+.guestLabel {
+  display: flex;
+  flex-direction: column;
+}
+
+.guestName { font-weight: 600; color: $color-ink; }
+.guestHint { font-size: 0.8rem; color: $color-muted; }
+
+.validation {
+  color: $color-danger;
+  font-size: 0.85rem;
+}
+
+.checkinOnly { border-left: 3px solid $color-accent; }
+.checkoutOnly { border-right: 3px solid $color-accent; }
+
+.table {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-3;
+  border: 1px solid $color-line;
+  border-radius: $radius-md;
+  background: $color-surface;
+}
+
+.rowBest {
+  border-color: $color-success;
+  box-shadow: 0 0 0 1px $color-success inset;
+}
+
+.rowMuted { opacity: 0.6; }
+
+.rowMain {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+}
+
+.rowProvider {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  font-weight: 600;
+  color: $color-ink;
+}
+
+.rowStatus { font-size: 0.85rem; color: $color-muted; }
+.rowStatusError { color: $color-danger; }
+
+.rowPrice {
+  text-align: right;
+  font-weight: 700;
+  color: $color-ink;
+}
+
+.rowPriceStruck {
+  text-decoration: line-through;
+  color: $color-muted;
+  font-weight: 400;
+}
+
+.savingsBadge { white-space: nowrap; }
+
+.bestBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: $space-3;
+  border-radius: $radius-md;
+  background: rgba($color-success, 0.12);
+  color: $color-ink;
+}
+
+.bestBannerAmount { font-weight: 700; }
+
+.summary {
+  display: none;
+
+  @include lg {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+    position: sticky;
+    top: $space-4;
+  }
+}
+
+.mobileBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: $space-3 $space-4;
+  border-top: 1px solid $color-line;
+  background: $color-surface;
+  z-index: 20;
+
+  @include lg {
+    display: none;
+  }
+}
+
+.mobileBarPrice { font-weight: 700; color: $color-ink; }
+
+.banner {
+  padding: $space-3;
+  border-radius: $radius-md;
+  font-size: 0.9rem;
+}
+
+.bannerInfo { background: rgba($color-accent, 0.12); color: $color-ink; }
+.bannerError { background: rgba($color-danger, 0.12); color: $color-danger; }
+
+.streaming {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  color: $color-muted;
+  font-size: 0.9rem;
+}
+
+.secondaryActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  justify-content: center;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.8rem;
+  color: $color-muted;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: $space-1;
+}
+
+.legendSwatch {
+  width: 14px;
+  height: 14px;
+  border-radius: $radius-sm;
+  border: 1px solid $color-line;
+}
+
+.legendAvailable { background: $color-surface; }
+.legendBlocked { background: $color-line; }
+.legendEdge { background: linear-gradient(135deg, $color-surface 50%, $color-line 50%); }

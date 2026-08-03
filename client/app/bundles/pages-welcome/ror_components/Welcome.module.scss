@@ -1,0 +1,38 @@
+@use '../../../styleguide/styles/tokens' as *;
+@use '../../../styleguide/styles/misc/responsive' as *;
+
+.hero {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: $space-7 $space-4;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 $space-3;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: $text-sm;
+  font-weight: 700;
+  color: $color-accent;
+}
+
+.title {
+  margin: 0;
+  font-family: $font-serif;
+  font-size: 2.4rem;
+  line-height: 1.05;
+  color: $color-ink;
+
+  @include lg {
+    font-size: 3.4rem;
+  }
+}
+
+.subtitle {
+  max-width: 620px;
+  margin: $space-4 auto $space-5;
+  font-size: $text-lg;
+  line-height: 1.6;
+  color: $color-muted;
+}

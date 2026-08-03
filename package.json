@@ -1,0 +1,10 @@
+{
+  "name": "stayscan-root",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "yarn@1.22.22",
+  "comment": "Root holds ONLY the Pro node renderer. All other frontend deps live in client/. renderer.js requires this from the repo root because client/ can be deleted after a build.",
+  "dependencies": {
+    "react-on-rails-pro-node-renderer": "17.0.0-rc.6"
+  }
+}

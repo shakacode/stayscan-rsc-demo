@@ -1,0 +1,42 @@
+@use '../../styles/tokens' as *;
+
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-4;
+}
+
+.label {
+  font-weight: 700;
+  color: $color-ink;
+}
+
+.controls {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-3;
+}
+
+.button {
+  width: 34px;
+  height: 34px;
+  border: 1px solid $color-line;
+  border-radius: $radius-pill;
+  background: $color-surface;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: $color-ink;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.value {
+  min-width: 1.5ch;
+  text-align: center;
+  font-weight: 700;
+}

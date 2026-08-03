@@ -1,0 +1,7 @@
+@use '../../../styleguide/styles/tokens' as *;
+
+.prose {
+  color: $color-muted;
+  line-height: 1.8;
+  white-space: pre-line;
+}

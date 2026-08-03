@@ -1,0 +1,125 @@
+@use '../../../styleguide/styles/tokens' as *;
+@use '../../../styleguide/styles/misc/responsive' as *;
+
+.section {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: $space-6 $space-4;
+}
+
+.sectionTitle {
+  margin: 0 0 $space-5;
+  font-family: $font-serif;
+  font-size: 1.8rem;
+  text-align: center;
+  color: $color-ink;
+}
+
+.muted { color: $color-muted; }
+
+// what's cheaper
+.cheaperCard {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-5;
+  padding: $space-4;
+  background: $color-surface;
+  border: 1px solid $color-line;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+
+  @include md { grid-template-columns: 1fr 1.2fr; }
+}
+
+.cheaperPhoto {
+  min-height: 200px;
+  border-radius: $radius-md;
+  background: var(--hero-bg, linear-gradient(135deg, #0d3b66, #165a72 48%, #ef8354));
+}
+
+.priceList {
+  list-style: none;
+  margin: $space-4 0 0;
+  padding: 0;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: $space-3 0;
+  border-bottom: 1px solid $color-line;
+}
+
+.cheapest { font-weight: 700; }
+.price { font-variant-numeric: tabular-nums; }
+.savings { margin-top: $space-4; font-weight: 700; color: $color-success; }
+
+// explainer
+.steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-5;
+
+  @include md { grid-template-columns: repeat(3, 1fr); }
+}
+
+.step { text-align: center; }
+.stepNum {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: $space-3;
+  border-radius: $radius-pill;
+  background: $color-primary;
+  color: $color-primary-ink;
+  font-weight: 700;
+}
+
+// stats
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: $space-6;
+  padding: $space-6 $space-4;
+  background: $color-page;
+}
+
+.stat { text-align: center; }
+.statNumber {
+  font-family: $font-serif;
+  font-size: 2.4rem;
+  color: $color-primary;
+}
+
+// testimonials
+.testimonial {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 0 $space-6;
+  text-align: center;
+}
+.quote { font-family: $font-serif; font-size: 1.3rem; line-height: 1.5; color: $color-ink; }
+.attribution { margin-top: $space-3; color: $color-muted; }
+
+// hosts
+.hosts {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: $space-6 $space-4;
+  text-align: center;
+}
+
+// cms
+.cms {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: $space-5 $space-4;
+  color: $color-muted;
+  text-align: center;
+  line-height: 1.7;
+}

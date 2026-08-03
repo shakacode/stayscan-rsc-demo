@@ -1,0 +1,7 @@
+# Production-mode-local process set, launched by `script/prod-local`.
+# Puma serves precompiled assets, the out-of-process Node renderer does SSR
+# (password-authenticated), and Sidekiq drains background jobs — the same shape
+# as production, minus the SSL-terminating proxy and real secrets.
+web: bundle exec puma -e production -p ${PORT:-3000}
+renderer: RENDERER_LOG_LEVEL=${RENDERER_LOG_LEVEL:-info} node renderer.js
+sidekiq: bundle exec sidekiq -e production

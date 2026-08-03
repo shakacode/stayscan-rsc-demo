@@ -1,0 +1,141 @@
+@use '../../../styleguide/styles/tokens' as *;
+@use '../../../styleguide/styles/misc/responsive' as *;
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.prose { color: $color-ink; line-height: 1.6; }
+.muted { color: $color-muted; font-size: $text-sm; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+}
+
+.label { font-weight: 600; color: $color-ink; }
+
+.textarea {
+  width: 100%;
+  min-height: 96px;
+  padding: $space-3;
+  border: 1px solid $color-line;
+  border-radius: $radius-md;
+  font: inherit;
+  resize: vertical;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $space-2;
+  margin-top: $space-2;
+}
+
+.stepIndicator {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  margin-bottom: $space-2;
+}
+
+.stepDot {
+  width: 24px;
+  height: 24px;
+  border-radius: $radius-pill;
+  display: grid;
+  place-items: center;
+  background: $color-line;
+  color: $color-muted;
+  font-size: $text-sm;
+}
+
+.stepDotActive { background: $color-primary; color: $color-primary-ink; }
+.stepDotDone { background: $color-success; color: #fff; }
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: $space-2 0;
+  border-bottom: 1px solid $color-line;
+}
+
+.success {
+  text-align: center;
+  padding: $space-4 0;
+}
+
+.successMark { font-size: 2.4rem; }
+
+.plans {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-3;
+
+  @include lg { grid-template-columns: 1fr 1fr; }
+}
+
+.plan {
+  border: 1px solid $color-line;
+  border-radius: $radius-md;
+  padding: $space-4;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.planName { font-weight: 700; color: $color-ink; }
+.planPrice { font-size: 1.4rem; color: $color-primary; }
+
+.shareRow {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.copyField {
+  display: flex;
+  gap: $space-2;
+  align-items: center;
+}
+
+.copyInput {
+  flex: 1;
+  padding: $space-2 $space-3;
+  border: 1px solid $color-line;
+  border-radius: $radius-md;
+  font: inherit;
+  background: $color-page;
+}
+
+.linkList {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.linkItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: $space-3;
+  border: 1px solid $color-line;
+  border-radius: $radius-md;
+}
+
+.revealedLink {
+  padding: $space-3;
+  border: 1px dashed $color-primary;
+  border-radius: $radius-md;
+  word-break: break-all;
+}
+
+.error {
+  color: $color-danger;
+  font-size: $text-sm;
+}

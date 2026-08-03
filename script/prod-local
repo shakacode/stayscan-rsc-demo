@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# Boot the app in RAILS_ENV=production on localhost with zero real secrets, so the
+# production stack (remote SSR, prerender caching, compression, throttling) can be
+# studied and benchmarked without deploying. This is the SSR baseline the
+# RSC work measures against.
+#
+#   script/prod-local build   # full production precompile (sprockets + webpack)
+#   script/prod-local         # boot puma + renderer + sidekiq (Procfile.prod.local)
+#
+# See docs/running-production-locally.md for the env-var table and why each is safe.
+set -euo pipefail
+cd "$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
+
+NODE_BIN="$HOME/.nvm/versions/node/v22.12.0/bin"
+[ -d "$NODE_BIN" ] && export PATH="$NODE_BIN:$PATH"
+
+# --- production runtime, dummy + local-only secrets --------------------------
+export RAILS_ENV=production
+export NODE_ENV=production
+export SECRET_KEY_BASE_DUMMY=1                 # Rails mints an ephemeral key; no credentials/master.key needed
+export DISABLE_FORCE_SSL=true                  # production.rb gate: serve plain http on localhost
+export RAILS_SERVE_STATIC_FILES=true           # puma serves precompiled assets (no nginx locally)
+export RAILS_LOG_TO_STDOUT=true
+export RAILS_LOG_LEVEL="${RAILS_LOG_LEVEL:-info}"
+export PORT="${PORT:-3000}"
+export RENDERER_PORT="${RENDERER_PORT:-3800}"
+export RENDERER_PASSWORD="${RENDERER_PASSWORD:-prod-local-placeholder-secret}"  # shared renderer<->rails secret (local only)
+export REACT_RENDERER_URL="${REACT_RENDERER_URL:-http://localhost:${RENDERER_PORT}}"
+# Reuse the seeded development database — prod-local studies production *behavior*,
+# not a separate prod dataset. Override DATABASE_URL to point elsewhere.
+export DATABASE_URL="${DATABASE_URL:-postgresql:///stayscan_development}"
+
+# Use memcached when it's reachable (prerender + fragment caching); otherwise
+# production.rb falls back to a memory store so the app still boots.
+if [ -z "${MEMCACHE_SERVERS:-}" ] && (exec 3<>/dev/tcp/localhost/11211) 2>/dev/null; then
+  export MEMCACHE_SERVERS=localhost:11211
+fi
+
+case "${1:-serve}" in
+  build)
+    echo "[prod-local] precompiling assets (webpack + sprockets)…"
+    # webpack (public/packs): the frontend lives in client/, so shakapacker's
+    # rake task resolves the binstub against client/bin — where it isn't. Drive the
+    # hook + binstub directly from the repo root.
+    bin/shakapacker-precompile-hook
+    SHAKAPACKER_SKIP_PRECOMPILE_HOOK=true bin/shakapacker
+    # sprockets (public/assets): precompile with the shakapacker enhancement off, since
+    # webpack already ran above (and its rake task can't find the binstub here).
+    SHAKAPACKER_PRECOMPILE=false bin/rails assets:precompile
+    ;;
+  serve|"")
+    echo "[prod-local] cache=${MEMCACHE_SERVERS:-memory} db=${DATABASE_URL##*/} port=${PORT} renderer=${RENDERER_PORT}"
+    exec foreman start -f Procfile.prod.local
+    ;;
+  *)
+    echo "usage: script/prod-local [build|serve]" >&2
+    exit 1
+    ;;
+esac

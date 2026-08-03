@@ -1,0 +1,67 @@
+@use '../../../../styleguide/styles/tokens' as *;
+
+.field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  flex: 1;
+}
+
+.icon {
+  flex: 0 0 auto;
+  color: $color-muted;
+}
+
+.input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: $font-sans;
+  font-size: $text-base;
+  color: $color-ink;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.list {
+  position: absolute;
+  top: calc(100% + #{$space-3});
+  left: 0;
+  z-index: 500;
+  width: 320px;
+  max-width: 80vw;
+  margin: 0;
+  padding: $space-2;
+  list-style: none;
+  background: $color-surface;
+  border: 1px solid $color-line;
+  border-radius: $radius-md;
+  box-shadow: $shadow-lg;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: $space-2 $space-3;
+  border-radius: $radius-sm;
+  cursor: pointer;
+}
+
+.active {
+  background: $color-line;
+}
+
+.name {
+  font-weight: 700;
+  color: $color-ink;
+}
+
+.count {
+  font-size: $text-sm;
+  color: $color-muted;
+}
