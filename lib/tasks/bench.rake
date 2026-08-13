@@ -21,7 +21,10 @@ namespace :bench do
     abort "seed the dev DB first (bin/rails demo:reset)" unless user && listing
 
     build = {
-      "home" => ->(u) { LayoutJson.new(user: u).as_json },
+      "home" => lambda do |u|
+        HomePageJson.build
+        LayoutJson.new(user: u).as_json
+      end,
       "listing_detail" => lambda do |u|
         ListingDetailJson.new(listing, current_user: u, quote_allowance: {}, plans: plans).as_json
         LayoutJson.new(user: u).as_json

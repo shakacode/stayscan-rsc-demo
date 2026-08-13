@@ -1,3 +1,85 @@
+# Performance harnesses
+
+## Client JS bytes (`bench/bundles.mjs`)
+
+Reports the JavaScript a given page path actually downloads — raw and
+brotli-compressed — by reading the webpack build artifacts (`manifest.json` +
+`loadable-stats.json`) rather than hitting a running server.
+
+**Epic gate:** "RSC ships less JavaScript to the browser" is the migration's
+central claim. This harness makes it measurable: a byte increase in the
+treatment build means the claim failed for that page.
+
+### Prerequisites
+
+Build the client packs (they are gitignored):
+
+```bash
+yarn --cwd client install
+bin/shakapacker                  # writes public/packs/manifest.json + loadable-stats.json
+```
+
+### Running
+
+Single build (the baseline report):
+
+```bash
+node bench/bundles.mjs --path /
+node bench/bundles.mjs --path /s --path /listings/2
+```
+
+A/B comparison (two build directories or two worktrees):
+
+```bash
+node bench/bundles.mjs --a public/packs --b ../ss-treatment/public/packs --path /
+```
+
+### What it reports
+
+For each path, the harness resolves:
+
+1. The **`application`** pack (every page loads it)
+2. The **auto-loaded component pack** (`generated/<Name>`) for that page's
+   `react_component`
+3. **Async chunks** reachable via `@loadable/component` (e.g. `BelowFold` on `/`)
+
+It reports per-chunk and total bytes, **raw and brotli**. Brotli matters because
+`config/application.rb` serves `Rack::Brotli` for `application/javascript`, so
+compressed bytes are what a visitor actually pays.
+
+### Known paths
+
+| Path            | Component       | Async chunks                                         |
+|-----------------|-----------------|------------------------------------------------------|
+| `/`             | Welcome         | BelowFold                                            |
+| `/s`            | Browse          | LeafletEngine, MapLibreEngine                        |
+| `/listings/:id` | ListingDetail   | BookDirectRevealModal + 9 listing modals             |
+
+Add new pages to `PAGE_MAP` in `bench/bundles.mjs`.
+
+### Honesty check
+
+Point `--a` and `--b` at the **same** build directory: every chunk should show
+**0.0%** delta. If it doesn't, something is wrong with the build or the harness.
+
+---
+
+## Server-time + allocations (`bin/rails bench:pages`)
+
+Measures the Ruby-side cost — the JSON builders + their queries — for
+home / listing-detail / browse, anon and signed-in. The SSR (Node) cost is
+measured separately by `bench/vitals.mjs`.
+
+```bash
+bin/rails bench:pages                   # run + compare against the saved baseline
+SAVE=1 bin/rails bench:pages            # (re)write bench/results/rails-baseline.yml
+ITERS=100 bin/rails bench:pages
+```
+
+Requires a seeded DB (`bin/rails demo:reset`).
+
+---
+
 # Web-vitals A/B harness (`bench/vitals.mjs`)
 
 Measures a page's field-ish web vitals under two servers and reports the
