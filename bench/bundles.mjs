@@ -56,6 +56,10 @@ const DIR_B = arg('b', null);
 // with ReactOnRails (matches the generated/<Name> entrypoint in the manifest)
 // plus a list of async chunk-group names loaded via @loadable/component.
 //
+// asyncChunks lists every chunk *reachable* from the page, including deferred
+// interaction chunks (ssr:false modals, alternative map engines). This is the
+// total JS surface the page can download — not just first-paint bytes.
+//
 // Update this map when a new page or loadable split is added.
 // ---------------------------------------------------------------------------
 
@@ -182,7 +186,9 @@ function resolveChunks(build, pageEntry) {
     const relative = asset.replace(/^\/packs\//, '');
     const filePath = join(dir, relative);
     if (!existsSync(filePath)) {
-      return { name: relative, kind, rawBytes: 0, brotliBytes: 0, missing: true };
+      console.error(`\n  ✗ ${filePath} referenced in manifest but not on disk.`);
+      console.error('    The build may be stale or incomplete — rebuild with bin/shakapacker.\n');
+      process.exit(1);
     }
     const raw = readFileSync(filePath);
     const br = brotliCompressSync(raw, {
@@ -214,8 +220,7 @@ function printReport(urlPath, chunks, label) {
 
   let totalRaw = 0, totalBr = 0;
   for (const c of chunks) {
-    const name = c.missing ? `${c.name} (MISSING)` : c.name;
-    console.log(`${prefix}  ${name.padEnd(80)}  ${c.kind.padEnd(6)}  ${fmtBytes(c.rawBytes).padStart(12)}  ${fmtBytes(c.brotliBytes).padStart(12)}`);
+    console.log(`${prefix}  ${c.name.padEnd(80)}  ${c.kind.padEnd(6)}  ${fmtBytes(c.rawBytes).padStart(12)}  ${fmtBytes(c.brotliBytes).padStart(12)}`);
     totalRaw += c.rawBytes;
     totalBr += c.brotliBytes;
   }
@@ -224,9 +229,11 @@ function printReport(urlPath, chunks, label) {
 }
 
 // Strip webpack content hashes from filenames so A/B comparison can match
-// the same logical chunk across two builds (e.g. runtime-abc123.js → runtime.js).
+// the same logical chunk across two builds. Handles both plain extensions
+// (runtime-abc123.js → runtime.js) and compound extensions
+// (BelowFold-abc123.chunk.js → BelowFold.chunk.js).
 function stripHash(name) {
-  return name.replace(/-[0-9a-f]{8,20}(\.\w+)$/, '$1');
+  return name.replace(/-[0-9a-f]{8,20}((?:\.\w+)+)$/, '$1');
 }
 
 function printAB(urlPath, chunksA, chunksB) {
