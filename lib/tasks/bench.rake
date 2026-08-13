@@ -22,7 +22,7 @@ namespace :bench do
 
     build = {
       "home" => lambda do |u|
-        HomePageJson.build
+        HomePageJson.build # exercised for timing; return value unused
         LayoutJson.new(user: u).as_json
       end,
       "listing_detail" => lambda do |u|

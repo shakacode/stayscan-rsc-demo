@@ -13,7 +13,7 @@
 // directories (or two worktrees' public/packs) and the harness reports the
 // Δ% per chunk and total.
 
-import { readFileSync, existsSync, statSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { resolve, join, dirname } from 'node:path';
 import { brotliCompressSync, constants as zlibConstants } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
@@ -155,7 +155,10 @@ function resolveChunks(build, pageEntry) {
   const groups = stats?.namedChunkGroups || {};
   for (const chunkName of pageEntry.asyncChunks) {
     const group = groups[chunkName];
-    if (!group) continue;
+    if (!group) {
+      console.error(`  ⚠ async chunk "${chunkName}" not found in loadable-stats — PAGE_MAP may be stale`);
+      continue;
+    }
     const jsFiles = (group.assets || [])
       .map(a => typeof a === 'string' ? a : a.name)
       .filter(f => f.endsWith('.js'));
@@ -165,31 +168,24 @@ function resolveChunks(build, pageEntry) {
     }
   }
 
-  // Build per-chunk result: { name, file, rawBytes, brotliBytes }
-  const chunks = [];
-  const allAssets = [
-    ...syncAssets.map(a => ({ asset: a, kind: 'sync' })),
-    ...asyncAssets.map(a => ({ asset: a, kind: 'async' })),
-  ];
-
-  for (const { asset, kind } of allAssets) {
-    // asset is like "/packs/js/runtime.js" — strip leading /packs/ to get disk path.
+  // Measure each chunk: read from disk, brotli-compress, record sizes.
+  const measure = (asset, kind) => {
     const relative = asset.replace(/^\/packs\//, '');
     const filePath = join(dir, relative);
     if (!existsSync(filePath)) {
-      chunks.push({ name: relative, kind, rawBytes: 0, brotliBytes: 0, missing: true });
-      continue;
+      return { name: relative, kind, rawBytes: 0, brotliBytes: 0, missing: true };
     }
     const raw = readFileSync(filePath);
     const br = brotliCompressSync(raw, {
-      params: {
-        [zlibConstants.BROTLI_PARAM_QUALITY]: zlibConstants.BROTLI_MAX_QUALITY,
-      },
+      params: { [zlibConstants.BROTLI_PARAM_QUALITY]: zlibConstants.BROTLI_DEFAULT_QUALITY },
     });
-    chunks.push({ name: relative, kind, rawBytes: raw.length, brotliBytes: br.length });
-  }
+    return { name: relative, kind, rawBytes: raw.length, brotliBytes: br.length };
+  };
 
-  return chunks;
+  return [
+    ...syncAssets.map(a => measure(a, 'sync')),
+    ...asyncAssets.map(a => measure(a, 'async')),
+  ];
 }
 
 // ---------------------------------------------------------------------------
