@@ -21,6 +21,11 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(__dirname, '..');
 
+// Match Rack::Brotli's default quality (5). The gem's deflater.rb uses
+// `{ quality: 5 }` unless overridden — this is what visitors actually receive.
+// Node.js's BROTLI_DEFAULT_QUALITY is 11 (max), which would under-report by ~15%.
+const BROTLI_QUALITY = 5;
+
 // ---------------------------------------------------------------------------
 // CLI
 // ---------------------------------------------------------------------------
@@ -81,12 +86,13 @@ const PAGE_MAP = {
 };
 
 function matchPath(urlPath) {
+  const path = urlPath.split('?')[0]; // strip query string
   // Exact match first.
-  if (PAGE_MAP[urlPath]) return PAGE_MAP[urlPath];
+  if (PAGE_MAP[path]) return PAGE_MAP[path];
   // Pattern match: /listings/:id → /listings/*
   for (const [pattern, entry] of Object.entries(PAGE_MAP)) {
     const re = new RegExp('^' + pattern.replace(/:[^/]+/g, '[^/]+') + '$');
-    if (re.test(urlPath)) return entry;
+    if (re.test(path)) return entry;
   }
   return null;
 }
@@ -152,11 +158,14 @@ function resolveChunks(build, pageEntry) {
 
   // 3. Async chunks from @loadable/component
   const asyncAssets = [];
+  if (!stats && pageEntry.asyncChunks.length) {
+    console.error('  ⚠ loadable-stats.json not found — async chunk sizes will not be reported');
+  }
   const groups = stats?.namedChunkGroups || {};
   for (const chunkName of pageEntry.asyncChunks) {
     const group = groups[chunkName];
     if (!group) {
-      console.error(`  ⚠ async chunk "${chunkName}" not found in loadable-stats — PAGE_MAP may be stale`);
+      if (stats) console.error(`  ⚠ async chunk "${chunkName}" not found in loadable-stats — PAGE_MAP may be stale`);
       continue;
     }
     const jsFiles = (group.assets || [])
@@ -177,7 +186,7 @@ function resolveChunks(build, pageEntry) {
     }
     const raw = readFileSync(filePath);
     const br = brotliCompressSync(raw, {
-      params: { [zlibConstants.BROTLI_PARAM_QUALITY]: zlibConstants.BROTLI_DEFAULT_QUALITY },
+      params: { [zlibConstants.BROTLI_PARAM_QUALITY]: BROTLI_QUALITY },
     });
     return { name: relative, kind, rawBytes: raw.length, brotliBytes: br.length };
   };
@@ -214,14 +223,20 @@ function printReport(urlPath, chunks, label) {
   return { totalRaw, totalBr };
 }
 
+// Strip webpack content hashes from filenames so A/B comparison can match
+// the same logical chunk across two builds (e.g. runtime-abc123.js → runtime.js).
+function stripHash(name) {
+  return name.replace(/-[0-9a-f]{8,20}(\.\w+)$/, '$1');
+}
+
 function printAB(urlPath, chunksA, chunksB) {
   console.log(`\n## path=${urlPath}`);
   const header = `  ${'chunk'.padEnd(65)}  ${'A raw'.padStart(10)}  ${'A br'.padStart(10)}  ${'B raw'.padStart(10)}  ${'B br'.padStart(10)}  ${'Δ raw'.padStart(8)}  ${'Δ br'.padStart(8)}`;
   console.log(header);
 
-  const mapA = new Map(chunksA.map(c => [c.name, c]));
-  const mapB = new Map(chunksB.map(c => [c.name, c]));
-  const allNames = [...new Set([...chunksA.map(c => c.name), ...chunksB.map(c => c.name)])];
+  const mapA = new Map(chunksA.map(c => [stripHash(c.name), c]));
+  const mapB = new Map(chunksB.map(c => [stripHash(c.name), c]));
+  const allNames = [...new Set([...chunksA.map(c => stripHash(c.name)), ...chunksB.map(c => stripHash(c.name))])];
 
   let totals = { aRaw: 0, aBr: 0, bRaw: 0, bBr: 0 };
   for (const name of allNames) {
