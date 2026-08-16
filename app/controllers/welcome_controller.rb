@@ -3,20 +3,11 @@
 # Home / marketing landing: hero + "what's cheaper" comparison + explainer,
 # stats, testimonials, hosts pitch, and CMS blocks, over the shared layout.
 class WelcomeController < ApplicationController
-  TESTIMONIALS = [
-    { id: "t1", quote: "Saved $240 on a week in Kivora just by booking the cheaper channel.",
-      author: "Mara D.", location: "Seattle" },
-    { id: "t2", quote: "One search showed the same villa at three prices. Wild.",
-      author: "Theo R.", location: "Austin" },
-    { id: "t3", quote: "Found a book-direct host and skipped the service fees entirely.",
-      author: "Iona F.", location: "Toronto" }
-  ].freeze
-
   def index
     @welcome_props = {
       layout: LayoutJson.new(user: current_user, current_currency: session[:currency] || "USD",
                              alerts: flash_alerts).as_json,
-      home: home_json,
+      home: HomePageJson.build,
       locale: params[:locale].presence || "en"
     }
   end
@@ -33,24 +24,6 @@ class WelcomeController < ApplicationController
   end
 
   private
-
-  def home_json
-    {
-      example: ExampleListingJson.build,
-      cms: cms_home,
-      testimonials: TESTIMONIALS,
-      stats: {
-        listings: Listing.count,
-        destinations: Location.where(kind: "area").count,
-        providers: 4
-      }
-    }
-  end
-
-  def cms_home
-    page = ContentPage.find_by(slug: "home")
-    page && { title: page.title, body: page.body }
-  end
 
   def flash_alerts
     flash.flat_map do |kind, message|
