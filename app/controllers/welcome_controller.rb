@@ -14,7 +14,8 @@ class WelcomeController < ApplicationController
   # (cached_react_component passes this as the block).
   def welcome_props
     {
-      layout: LayoutJson.new(user: current_user, current_currency: session[:currency] || "USD",
+      layout: LayoutJson.new(user: current_user,
+                             current_currency: session[:currency].presence || RenderingExtension::DEFAULT_CURRENCY,
                              alerts: flash_alerts).as_json,
       home: HomePageJson.build,
       locale: params[:locale].presence || "en"
@@ -25,8 +26,9 @@ class WelcomeController < ApplicationController
   # must appear here. Bounded dimensions only — unbounded ones (flash,
   # last_search) use cache_welcome_render? to skip the cache instead.
   def welcome_cache_key
-    [ "welcome", current_user&.id || "anon", session[:currency] || "USD",
-      cookies["currency"].presence || "USD",
+    [ "welcome", current_user&.id || "anon",
+      session[:currency].presence || RenderingExtension::DEFAULT_CURRENCY,
+      cookies["currency"].presence || RenderingExtension::DEFAULT_CURRENCY,
       RenderingExtension.screen_size_for(request),
       params[:locale].presence || "en", asset_version ]
   end

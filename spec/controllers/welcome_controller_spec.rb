@@ -5,6 +5,12 @@ require "rails_helper"
 # Home fragment-cache key. The home SSR is cached via cached_react_component;
 # each output-changing dimension must produce a distinct key.
 RSpec.describe WelcomeController, type: :controller do
+  # Same UA string as MOBILE_UA in spec/services/rendering_extension_spec.rb.
+  let(:mobile_ua) do
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 " \
+    "(KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+  end
+
   before { allow(controller).to receive(:asset_version).and_return("rel-1") }
 
   def cache_key_after_request(params: {})
@@ -47,9 +53,7 @@ RSpec.describe WelcomeController, type: :controller do
   it "busts on the device class (mobile vs desktop)" do
     desktop = cache_key_after_request
 
-    request.env["HTTP_USER_AGENT"] =
-      "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) " \
-      "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+    request.env["HTTP_USER_AGENT"] = mobile_ua
 
     expect(cache_key_after_request).not_to eq(desktop)
   end

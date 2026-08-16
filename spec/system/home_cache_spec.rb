@@ -28,24 +28,24 @@ RSpec.describe "Home fragment caching", type: :system, caching: true do
   end
 
   it "does not evaluate props on a cache hit" do
-    content_pages_queries = { first: 0, second: 0 }
-    phase = :first
+    query_count = 0
     sub = ActiveSupport::Notifications.subscribe("sql.active_record") do |*args|
       event = ActiveSupport::Notifications::Event.new(*args)
-      content_pages_queries[phase] += 1 if event.payload[:sql]&.include?("content_pages")
+      query_count += 1 if event.payload[:sql]&.include?("content_pages")
     end
 
     visit "/"
     expect(page).to have_content("Find your stay for less")
+    first_visit_queries = query_count
 
-    phase = :second
+    query_count = 0
     visit "/"
     expect(page).to have_content("Find your stay for less")
 
     ActiveSupport::Notifications.unsubscribe(sub)
 
-    expect(content_pages_queries[:first]).to be_positive
-    expect(content_pages_queries[:second]).to eq(0)
+    expect(first_visit_queries).to be_positive
+    expect(query_count).to eq(0)
   end
 
   it "does not leak the last_search cookie across visitors" do
