@@ -10,9 +10,13 @@ RSpec.describe "Home fragment caching", type: :system, caching: true do
   it "writes the home render to cache, then hits it on the second request" do
     writes = 0
     hits = 0
-    write_sub = ActiveSupport::Notifications.subscribe("cache_write.active_support") { writes += 1 }
+    write_sub = ActiveSupport::Notifications.subscribe("cache_write.active_support") do |*args|
+      event = ActiveSupport::Notifications::Event.new(*args)
+      writes += 1 if event.payload[:key]&.include?("Welcome")
+    end
     read_sub = ActiveSupport::Notifications.subscribe("cache_read.active_support") do |*args|
-      hits += 1 if ActiveSupport::Notifications::Event.new(*args).payload[:hit]
+      event = ActiveSupport::Notifications::Event.new(*args)
+      hits += 1 if event.payload[:hit] && event.payload[:key]&.include?("Welcome")
     end
 
     visit "/"
@@ -49,15 +53,23 @@ RSpec.describe "Home fragment caching", type: :system, caching: true do
   end
 
   it "does not leak the last_search cookie across visitors" do
-    # Visit 1: set the last_search cookie — cache is skipped (cache_welcome_render? = false)
-    # because the cookie value lands in railsContext and is not in the cache key.
+    # Navigate once to establish the browser domain for cookie setting.
     visit "/"
+    expect(page).to have_content("Find your stay for less")
+
+    # Clear the cache that the domain-setup visit just wrote so the
+    # cookie-bearing visit below is the first cacheable request.
+    Rails.cache.clear
+
+    # Visitor A: set the last_search cookie, then visit. The guard
+    # (cache_welcome_render?) should skip the cache; if it were broken,
+    # this would write the search term into the cached blob.
     page.driver.browser.manage.add_cookie(name: "last_search", value: "secret-search-xyz", path: "/")
     visit "/"
     expect(page).to have_content("Find your stay for less")
 
-    # Visit 2: clear all cookies (simulates a fresh visitor) — should not see
-    # the previous visitor's search term anywhere in the rendered HTML.
+    # Visitor B: clear cookies (new visitor), then visit. If the guard
+    # was broken, Visitor B gets Visitor A's cached blob with the search term.
     page.driver.browser.manage.delete_all_cookies
     visit "/"
     expect(page).to have_content("Find your stay for less")
