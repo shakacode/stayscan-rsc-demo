@@ -48,6 +48,14 @@ module RenderingExtension
     }
   end
 
+  # Public seam: returns the screen-size class for a request. Called from both
+  # the welcome cache key (WelcomeController#welcome_cache_key) and custom_context
+  # so the two can never drift.
+  def self.screen_size_for(request)
+    device = Browser.new(request.user_agent.to_s).device
+    initial_screen_size(device)
+  end
+
   # Server-side first-paint breakpoint hint. Mirrors the client breakpoints:
   # sm (mobile) / md (tablet) / lg (desktop, the default).
   def self.initial_screen_size(device)
