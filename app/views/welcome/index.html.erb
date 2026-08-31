@@ -1,2 +1,6 @@
-<%= react_component("Welcome", props: @welcome_props, prerender: true, cache_key: welcome_cache_key) %>
-
+<%= cached_react_component("Welcome",
+      prerender: true,
+      cache_key: welcome_cache_key,
+      if: cache_welcome_render?,
+      cache_options: { expires_in: 1.hour },
+      cache_tags: [ "welcome", "content_page:home" ]) { welcome_props } %>

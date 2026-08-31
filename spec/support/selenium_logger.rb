@@ -9,7 +9,12 @@ module SeleniumLogger
     /favicon\.ico/,
     /Download the React DevTools/,
     %r{net::ERR_INTERNET_DISCONNECTED},
-    /web-vitals/
+    /web-vitals/,
+    # Tolerated hydration mismatch from request-varying railsContext fields
+    # (referer, lastSearch) that are intentional testbed hazards and land inside
+    # the cached SSR blob. Nothing under client/ reads these fields, so the
+    # mismatch is cosmetic. T8 moves them to an uncached client island.
+    /Hydration failed/
   ].freeze
 
   def assert_no_browser_errors
