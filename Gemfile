@@ -12,7 +12,7 @@ gem "puma", ">= 5.0"
 # ==== React on Rails Pro + React Server Components (versions synced with client/package.json)
 gem "react_on_rails", "17.0.0.rc.6"
 gem "react_on_rails_pro", "17.0.0.rc.6"
-gem "shakapacker", "10.1.0"
+gem "shakapacker", "10.3.1"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
